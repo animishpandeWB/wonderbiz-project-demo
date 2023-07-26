@@ -14,6 +14,11 @@ const Login: React.FC = () => {
         setEmailError('');
         setPasswordError('');
 
+        const submitObject = {
+            "email": email,
+            "password": password
+        }
+
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/;
 
@@ -22,7 +27,7 @@ const Login: React.FC = () => {
         }else if(!passwordRegex.test(password)) {
             setPasswordError("Enter a valid password with minimum 8 characters and atleast 1 number and 1 letter");
         }else {
-            console.log(`Logged in with email: ${email} and password: ${password}`);
+            console.log(submitObject);
         }
     }
 
