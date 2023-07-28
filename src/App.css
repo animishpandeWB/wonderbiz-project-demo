@@ -1,12 +1,13 @@
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #E6FFFD;
+  background-color: #FAF9F0;
 }
 
 .Navbar {
   display: flex;
   flex-direction: row;
-  border-bottom: 2px solid grey;
+  border-bottom: 1.5px solid gray;
+  /* box-shadow: 5px 5px 25px #1DCED8; */
   height: 80px;
 }
 
@@ -20,8 +21,11 @@ body {
 .Navbar--userLogo {
   width: 50px;
   height: 50px;
-  margin-left: 1390px;
-  margin-top: 5px;
+  margin-left: auto;
+  padding-right: 10px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  margin-top: 15px;
 }
 
 .Login {
@@ -36,7 +40,7 @@ body {
   margin-right: auto;
   margin-left: auto;
   margin-top: 50px;
-  background-color: #FFCACC;
+  background-color: #1DCED8;
 }
 
 .Login--heading {
@@ -74,7 +78,7 @@ body {
   margin-right: 10px;
   padding: 5px 15px;
   font-family: 'Montserrat', sans-serif;
-  background-color: #ACBCFF;
+  background-color: #F6490D;
   border: none;
   border-radius: 5px;
   color: white;
@@ -84,7 +88,7 @@ body {
   margin-top: 30px;
   padding: 5px 15px;
   font-family: 'Montserrat', sans-serif;
-  background-color: #ACBCFF;
+  background-color: #F6490D;
   border: none;
   border-radius: 5px;
   color: white;
@@ -103,7 +107,7 @@ body {
   margin-left: auto;
   margin-top: 50px;
   text-align: center;
-  background-color: #FFCACC;
+  background-color: #1DCED8;
 }
 
 .Form--username {
@@ -137,10 +141,11 @@ body {
   align-self: center;
   padding: 5px 15px;
   font-family: 'Montserrat', sans-serif;
-  background-color: #ACBCFF;
+  background-color: #F6490D;
   border: none;
   border-radius: 5px;
   color: white;
+  margin-bottom: 0;
 }
 
 .forgot-password {
@@ -148,4 +153,36 @@ body {
   margin-top: 15px;
   font-size: 12px;
   margin-bottom: -10px;
+}
+
+.HomePage {
+  display: flex;
+  flex-direction: row;
+  align-content: space-evenly;
+}
+
+.PumpTable {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  width: 100%;
+}
+
+.PumpTable--searchbar {
+  margin-left: auto;
+  margin-right: 35px;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  padding: 5px 5px;
+  border-radius: 10px;
+  border: none;
+  background-color: #F6490D;
+}
+
+tr {
+  background-color: #1DCED8;
+}
+
+td {
+  width: auto;
 }

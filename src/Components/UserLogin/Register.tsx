@@ -12,6 +12,7 @@ const Register: React.FC = () => {
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const loginPageBool:boolean = true;
 
     const handleRegister = () => {
         setEmailError('');
@@ -37,7 +38,7 @@ const Register: React.FC = () => {
 
     return (
         <div className='Register'>
-            <Navbar />
+            <Navbar loginPageBool = {loginPageBool}/>
             <div className='Register--Page'>
                 <h2>User Registration</h2>
                 <div className='Register--form'>

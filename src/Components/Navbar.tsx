@@ -4,11 +4,11 @@ import userLogo from '../Assets/Images/user.png';
 import { Link } from 'react-router-dom';
 
 
-const Navbar = () => {
+const Navbar: React.FC<{loginPageBool: boolean}> = ({loginPageBool}) => {
     return (
         <div className='Navbar'>
-            <Link to={"/"}><img src={mainLogo} alt="mainLogo" className='Navbar--mainLogo' /></Link>
-            <img src={userLogo} alt="userLogo" className='Navbar--userLogo'/>
+            <Link to={"/home"}><img src={mainLogo} alt="mainLogo" className='Navbar--mainLogo' /></Link>
+            {!loginPageBool && <img src={userLogo} alt="userLogo" className='Navbar--userLogo'/>}
         </div>
     )
 }

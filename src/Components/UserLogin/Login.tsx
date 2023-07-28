@@ -9,6 +9,7 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const loginPageBool = true;
 
     const handleLogin = () => {
         setEmailError('');
@@ -40,7 +41,7 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <Navbar />
+            <Navbar loginPageBool = {loginPageBool}/>
             <div className='Login'>
                 <h2 className='Login--heading'>User login</h2>
                     <p>Email:</p>
