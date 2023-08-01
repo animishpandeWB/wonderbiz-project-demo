@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../Navbar';
+import { useNavigate } from 'react-router-dom';
 
 
 const Register: React.FC = () => {
@@ -35,6 +36,7 @@ const Register: React.FC = () => {
             console.log(`Registered with email: ${email}, username: ${username} and password: ${password}`);
         }
     }
+    const navigate = useNavigate();
 
     return (
         <div className='Register'>
@@ -92,6 +94,10 @@ const Register: React.FC = () => {
                         className='Form--submit-button'
                         onClick={handleRegister}    
                     >Register</button>
+                    <button 
+                        className='Form--submit-button'
+                        onClick={() => navigate("/login")}    
+                    >Login</button>
                 </div>
             </div>
         </div>

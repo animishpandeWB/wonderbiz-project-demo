@@ -1,14 +1,17 @@
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #FAF9F0;
+  background-color: white;
 }
 
-.Navbar {
+/* .Navbar {
   display: flex;
   flex-direction: row;
   border-bottom: 1.5px solid gray;
   /* box-shadow: 5px 5px 25px #1DCED8; */
-  height: 80px;
+  /* height: 80px; */
+
+.navBar {
+  border-bottom: 1.5px solid black;
 }
 
 .Navbar--mainLogo {
@@ -19,7 +22,7 @@ body {
 }
 
 .Navbar--userLogo {
-  width: 50px;
+  width: 55px;
   height: 50px;
   margin-left: auto;
   padding-right: 10px;
@@ -137,7 +140,7 @@ body {
 .Form--submit-button {
   margin-top: 25px;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: 10px;
   align-self: center;
   padding: 5px 15px;
   font-family: 'Montserrat', sans-serif;
@@ -164,9 +167,14 @@ body {
 .PumpTable {
   display: flex;
   flex-direction: column;
-  align-content: space-between;
+  /* align-content: space-between; */
   width: 100%;
 }
+
+/* .PumpTable--table {
+  width: 500px;
+  height: 500px;
+} */
 
 
 .PumpTable--searchbar {
@@ -176,9 +184,15 @@ body {
   margin-bottom: 7px;
   padding: 5px 5px;
   border-radius: 10px;
-  border: none;
-  background-color: #F6490D;
+  border: 0.5px solid black;
+  background-color: white;
 }
+
+.ag-theme-alpine {
+  width: 100%;
+  height: 600px;
+}
+
 
 tr {
   background-color: #1DCED8;
@@ -187,4 +201,34 @@ tr {
 
 td {
   width: auto;
+}
+
+
+.Sidebar {
+  width: 230px;
+  border-right: 1.5px solid black;
+  border-top: 1.5px solid black;
+}
+
+.Sidebar--home {
+  width: 100%;
+  border: none;
+  padding: 15px 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  background-color: #16FF00;
+  cursor: pointer;
+}
+
+.viewBtn {
+  width: 20px;
+  border: none;
+}
+
+.onBtn {
+  width: 35px;
+}
+
+.offBtn {
+  width: 35px;
 }

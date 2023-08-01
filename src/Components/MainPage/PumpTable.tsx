@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useMemo, useEffect} from 'react';
 import pumps from './PumpData';
+import Table from 'react-bootstrap/esm/Table';
+import viewButton from "../../Assets/Images/eye.png";
+import onBtn from "../../Assets/Images/switch-on.png";
+import offBtn from "../../Assets/Images/switch-off.png";
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 // interface PumpData {
 //     id: number
@@ -11,7 +18,19 @@ import pumps from './PumpData';
 const PumpTable = () => {
 
     const [searchInput, setSearchInput] = useState("");
+    const [columnData, setColumnData]: any[] = useState([
+        {field: "id"},
+        {field: "pumpName"},
+        {field: "pumpType"},
+        {field: "pumpStatus"}
+    ]);
 
+    const defaultColDef = useMemo( ()=> ({
+        sortable: true,
+        resizable: true,
+        filter: true,
+        flex: 1,
+      }), []);
     // const pumps: PumpData[] = [
     //     {id: 1, pumpName: "Pump 1", pumpType: "Jet Pump", pumpStatus: true},
     //     {id: 2, pumpName: "Pump 2", pumpType: "Centrifugal Pump", pumpStatus: false},
@@ -31,7 +50,8 @@ const PumpTable = () => {
         // e.preventDefault();
         setSearchInput(e.value);
     };
-
+    // console.log(pumpsData)
+    
     // if(searchInput.length > 0) {
     //     pumpsData.filter((pump) => {
     //         getPump = pump.pumpName.match(searchInput);
@@ -43,6 +63,10 @@ const PumpTable = () => {
         console.log(pump);
     }
 
+    function cellClickedListener(pump: any) {
+        console.log(pump.data);
+    }
+
     return (
         <div className='PumpTable'>
             <input 
@@ -52,27 +76,50 @@ const PumpTable = () => {
                 onChange={(e) => handleChange(e.target)}
                 value={searchInput}
             />
-            <table className='PumpTable--table'>
-                <tr className='table--row'>
-                    <th>Pump ID</th>
-                    <th>Pump Name</th>
-                    <th>Pump Type</th>
-                    <th>Pump Status</th>
-                </tr>
+            <div className="ag-theme-alpine">
+
+                <AgGridReact
+
+                    rowData={pumpsData} // Row Data for Rows
+
+                    columnDefs={columnData} // Column Defs for Columns
+                    defaultColDef={defaultColDef} // Default Column Properties
+
+                    animateRows={true} // Optional - set to 'true' to have rows animate when sorted
+                    rowSelection='multiple' // Options - allows click selection of rows
+
+                    onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+                    pagination={true}
+                    paginationPageSize={10}
+                    />
+            </div>
+            
+            {/* <Table striped bordered hover className='PumpTable--table'>
+                <thead>
+                    <tr className='table--row'>
+                        <th>Pump ID</th>
+                        <th>Pump Name</th>
+                        <th>Pump Type</th>
+                        <th>Pump Status</th>
+                        <th>View Pump</th>
+                    </tr>
+                </thead>
                 {
                     pumpsData.map((pump) => {
                         return (
-                        
-                            <tr onClick={() => handleClick(pump)}>
-                                <td>{pump.id}</td>
-                                <td>{pump.pumpName}</td>
-                                <td>{pump.pumpType}</td>
-                                <td>{pump.pumpStatus ? "On" : "Off"}</td>
-                            </tr>
+                            <tbody>
+                                <tr onClick={() => handleClick(pump)}>
+                                    <td>{pump.id}</td>
+                                    <td>{pump.pumpName}</td>
+                                    <td>{pump.pumpType}</td>
+                                    <td>{pump.pumpStatus ? <img src={onBtn} className='onBtn'/> : <img src={offBtn} className='offBtn'/>}</td>
+                                    <td>{<button className='viewBtn'><img src={viewButton} className='viewBtn'/></button>}</td>
+                                </tr>
+                            </tbody>
                         
                     )})
                 }
-            </table>
+            </Table> */}
         
         </div>
     )
