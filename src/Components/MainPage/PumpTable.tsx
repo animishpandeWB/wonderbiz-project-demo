@@ -1,12 +1,35 @@
-import React, {useState, useRef, useMemo, useEffect} from 'react';
-import pumps from './PumpData';
-import Table from 'react-bootstrap/esm/Table';
-import viewButton from "../../Assets/Images/eye.png";
-import onBtn from "../../Assets/Images/switch-on.png";
-import offBtn from "../../Assets/Images/switch-off.png";
+import React, {useState, useRef, useMemo, useEffect, useContext} from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import axios from 'axios';
+import PumpStatusButton from './PumpStatusButton';
+import ViewButton from './ViewButton';
+import DeleteButton from './DeleteButton';
+import AddButton from './AddButton';
+import SearchButton from '../../Assets/Images/magnifying-glass.png';
+import '../../App.css';
+import { Link, useNavigate } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import { TextField } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+
+
+// const api = axios.create({
+//     baseURL: `http://localhost:5148/`
+// })
+const UserURL = `http://localhost:5148/api/User`;
+const PumpURL = `http://localhost:5148/api/Pump/Users`;
+const baseURL3 = `http://localhost:3000/pump`;
 
 // interface PumpData {
 //     id: number
@@ -15,80 +38,184 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 //     pumpStatus: boolean
 // }
 
-const PumpTable = () => {
+const PumpTable: React.FC = (props:any) => {
 
     const [searchInput, setSearchInput] = useState("");
+    const [apiData, setApiData]: any[] = useState([]);
+    const [pumpsData, setPumpsData]: any[] = useState([]);
+    const [filterSearch, setFilterSearch]: any[] = useState(pumpsData);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [inputName, setInputName] = useState("");
+    const [inputType, setInputType] = useState("");
+    const [statusValue, setStatusValue] = React.useState("false");
     const [columnData, setColumnData]: any[] = useState([
-        {field: "id"},
-        {field: "pumpName"},
-        {field: "pumpType"},
-        {field: "pumpStatus"}
+        {field: "pumpId", headerName: "Pump ID"},
+        {field: "name", headerName: "Pump Name"},
+        {field: "type", headerName: "Pump Type"},
+        {field: "status", headerName: "Pump Status", cellRenderer: PumpStatusButton},
+        {field: "view", headerName: "View Pump", cellRenderer: ViewButton},
+        {field: "delete", headerName: "Delete Pump", cellRenderer: DeleteButton, suppressNavigable: true}
     ]);
+    const navigate = useNavigate();
 
     const defaultColDef = useMemo( ()=> ({
         sortable: true,
         resizable: true,
-        filter: true,
+        // filter: true,
         flex: 1,
       }), []);
-    // const pumps: PumpData[] = [
-    //     {id: 1, pumpName: "Pump 1", pumpType: "Jet Pump", pumpStatus: true},
-    //     {id: 2, pumpName: "Pump 2", pumpType: "Centrifugal Pump", pumpStatus: false},
-    //     {id: 3, pumpName: "Pump 3", pumpType: "Piston Pump", pumpStatus: false},
-    //     {id: 4, pumpName: "Pump 4", pumpType: "Jet Pump", pumpStatus: true},
-    //     {id: 5, pumpName: "Pump 5", pumpType: "Centrifugal Pump", pumpStatus: true},
-    //     {id: 6, pumpName: "Pump 6", pumpType: "Piston Pump", pumpStatus: false},
-    //     {id: 7, pumpName: "Pump 7", pumpType: "Jet Pump", pumpStatus: true},
-    //     {id: 8, pumpName: "Pump 8", pumpType: "Piston Pump", pumpStatus: true},
-    //     {id: 9, pumpName: "Pump 9", pumpType: "Jet Pump", pumpStatus: false},
-    //     {id: 10, pumpName: "Pump 10", pumpType: "Centrifugal Pump", pumpStatus: false}
-    // ];
+    
+    const gridRef: any = useRef();
+    const propsData = props;
+    // console.log(propsData[0]);
+    const loginId = propsData[0];
+    console.log(loginId);
 
-    const [pumpsData, setPumpsData] = useState(pumps);
-
+    
+    useEffect(() => {
+        axios.get(UserURL)
+        .then((res) => {
+            setApiData(res.data);  
+        })
+    }, []);
+    // console.log(apiData);
+    useEffect(() => {
+        axios.get(`http://localhost:5148/api/Pump/Users/${propsData[0]}`)
+        .then((res) => {
+            setPumpsData(res.data);
+        })
+    }, []);
+    useEffect(() => {
+        setFilterSearch(pumpsData);
+    }, [pumpsData]);
+    // const usingContextData = useContext(UserContext);
+    // console.log("Using context data: " + usingContextData);
+    
     const handleChange = (e: HTMLInputElement): void => {
-        // e.preventDefault();
         setSearchInput(e.value);
     };
-    // console.log(pumpsData)
     
-    // if(searchInput.length > 0) {
-    //     pumpsData.filter((pump) => {
-    //         getPump = pump.pumpName.match(searchInput);
-    //         return getPump;
-    //     });
-    // }
-
-    function handleClick(pump: Object) {
-        console.log(pump);
+    function handleSearch() {
+        pumpsData.map((pump: any) => {
+            if(pump.name == searchInput) {
+                console.log(pump.name + " found");
+                setFilterSearch([pump]);
+                return;
+            }else {
+                // window.location.reload();
+            }
+        })
     }
 
     function cellClickedListener(pump: any) {
-        console.log(pump.data);
+        navigate(`/pump/${pump.data.pumpId}`, {state: propsData[0]});
     }
 
+    function handleAdd() {
+        console.log("Add clicked");
+        setOpenDialog(true);
+    }
+    function handleClose() {
+        setOpenDialog(false);
+    }
+    const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setStatusValue(event.target.value);
+    };
+    const handleInputNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("Input name changed");
+        setInputName(event.target.value);
+    }
+    const handleInputTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("Input type changed");
+        setInputType(event.target.value);
+    }
+    function handleSubmit() {
+        const statusVal = (statusValue === 'true')
+        const payload = {
+            "id": 0,
+            "name": inputName,
+            "type": inputType,
+            "status": statusVal,
+            "userId": loginId,
+            "user": null
+        }
+        axios.post("http://localhost:5148/api/Pump", payload)
+                .then((response) => {
+                    console.log(response.data);
+                })
+        window.location.reload();
+    }
     return (
         <div className='PumpTable'>
-            <input 
-                type='text'
-                className='PumpTable--searchbar'
-                placeholder='Search here'
-                onChange={(e) => handleChange(e.target)}
-                value={searchInput}
-            />
+            <div className='PumpTable--search'>
+                <button className='PumpTable--addPump' onClick={handleAdd}>Add Pump</button>
+                <div>
+                    <Dialog open={openDialog} onClose={handleClose}>
+                        <DialogTitle>Add Pump</DialogTitle>
+                        <DialogContent>
+                            <TextField
+                                color='success'
+                                margin="dense"
+                                id="name"
+                                label="Pump Name"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                onChange={handleInputNameChange}
+                            />
+                            <TextField
+                                color='success'
+                                margin="dense"
+                                id="type"
+                                label="Pump Type"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                onChange={handleInputTypeChange}
+                            />
+                            <FormControl>
+                                <FormLabel id="demo-controlled-radio-buttons-group">Pump Status</FormLabel>
+                                <RadioGroup
+                                    aria-labelledby="demo-controlled-radio-buttons-group"
+                                    name="controlled-radio-buttons-group"
+                                    value={statusValue}
+                                    onChange={handleStatusChange}
+                                >
+                                <FormControlLabel value="true" control={<Radio />} label="On" />
+                                <FormControlLabel value="false" control={<Radio />} label="Off" />
+                                </RadioGroup>
+                            </FormControl>
+                            
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color='success'>Cancel</Button>
+                            <Button onClick={handleSubmit} color='success'>Submit</Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
+                <input 
+                    type='text'
+                    className='PumpTable--searchbar'
+                    placeholder='Search here'
+                    onChange={(e) => handleChange(e.target)}
+                    value={searchInput}
+                />
+                <button onClick={handleSearch}><img src={SearchButton} className='searchBtn'/></button>
+            </div>
+            
             <div className="ag-theme-alpine">
 
                 <AgGridReact
+                    ref={gridRef}
+                    rowData={filterSearch}
 
-                    rowData={pumpsData} // Row Data for Rows
+                    columnDefs={columnData}
+                    defaultColDef={defaultColDef} 
 
-                    columnDefs={columnData} // Column Defs for Columns
-                    defaultColDef={defaultColDef} // Default Column Properties
+                    animateRows={true} 
+                    rowSelection='single' 
 
-                    animateRows={true} // Optional - set to 'true' to have rows animate when sorted
-                    rowSelection='multiple' // Options - allows click selection of rows
-
-                    onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+                    onCellClicked={(cellClickedListener)} 
                     pagination={true}
                     paginationPageSize={10}
                     />

@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-
+const api = axios.create({
+    baseURL: `http://localhost:5148/`
+})
 const Register: React.FC = () => {
 
     const [email, setEmail] = useState("");
@@ -21,11 +24,13 @@ const Register: React.FC = () => {
         setConfirmPasswordError('');
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const usernameRegex = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+        const usernameRegex = /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/;
 
+        
+
         if(!usernameRegex.test(username)) {
-            setUsernameError("Enter a valid username with minimum 7 characters");
+            setUsernameError("Enter a valid username with minimum 4 characters");
         }else if(!emailRegex.test(email)) {
             setEmailError("Enter a valid email address");
         }else if(!passwordRegex.test(password)) {
@@ -34,13 +39,33 @@ const Register: React.FC = () => {
             setConfirmPasswordError("Passwords are not equal");
         }else {
             console.log(`Registered with email: ${email}, username: ${username} and password: ${password}`);
+            const payload = {
+                "id": 0,
+                "username" : username,
+                "email": email,
+                "password": password,
+                "pumps": null
+            }
+            // axios({
+            //     method: 'post',
+            //     url: 'http://localhost:5148/api/User',
+            //     data: payload,
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     }
+            // });
+            axios.post("http://localhost:5148/api/User", payload)
+                .then((response) => {
+                    console.log(response.data);
+                })
+            alert("Successfully Registered!");
         }
     }
     const navigate = useNavigate();
-
+    const id:any = 1;
     return (
         <div className='Register'>
-            <Navbar loginPageBool = {loginPageBool}/>
+            <Navbar loginPageBool = {loginPageBool} mainId={id}/>
             <div className='Register--Page'>
                 <h2>User Registration</h2>
                 <div className='Register--form'>

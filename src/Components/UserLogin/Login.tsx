@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import Navbar from '../Navbar';
 // import Register from './Register';
 import { useNavigate } from 'react-router-dom';
+// import UserContext  from './UserContext';
 import axios from 'axios';
+import { userInfo } from 'os';
 
 const api = axios.create({
     baseURL: `http://localhost:5148/`
 })
-const baseURL = `http://localhost:5148`;
-
+// const baseURL = `http://localhost:5148`;
+let UserContext: any;
 const Login: React.FC = () => {
  
     
@@ -20,7 +22,11 @@ const Login: React.FC = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [apiData, setApiData]: any[] = useState([]);
+    const [loggedIn, SetLoggedIn] = useState('');
     const loginPageBool = true;
+    let userId: any;
+    
+    
 
     // useEffect(() => {
     //     axios.get(baseURL).then((res) => {
@@ -33,11 +39,7 @@ const Login: React.FC = () => {
             setApiData(res.data);
         });
         // console.log(apiData);
-    }, []);
-
-    
-        
-    
+    });
 
     const handleLogin = () => {
         setEmailError('');
@@ -58,11 +60,16 @@ const Login: React.FC = () => {
         // }else {
         //     console.log(submitObject);
         // }
+        
         apiData.map((d: any) => {
             if(email === d.email && password == d.password) {
-                navigate("/home");
+                // UserContext = createContext(d.userId);
+                userId = d.userId;
+                navigate(`/home/${userId}`);
+                return;
             }else {
-                alert("Login Failed");
+                // alert("Login Failed");
+                SetLoggedIn("Login Failed");
             }
         });
 
@@ -79,9 +86,10 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <Navbar loginPageBool = {loginPageBool}/>
+            <Navbar loginPageBool = {loginPageBool} mainId={userId}/>
             <div className='Login'>
                 <h2 className='Login--heading'>User login</h2>
+                    {loggedIn && <span className='error-msg'>{loggedIn}</span>}
                     <p>Email:</p>
                     <input 
                         type='email' 
@@ -121,4 +129,4 @@ const Login: React.FC = () => {
     )
 }
 
-export default Login;
+export {Login, UserContext};

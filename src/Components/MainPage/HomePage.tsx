@@ -1,28 +1,20 @@
 import React from 'react';
 import Navbar from '../Navbar';
 // import {Sidebar, Menu, MenuItem} from 'react-pro-sidebar';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import PumpTable from './PumpTable';
 import Sidebar from './Sidebar';
 
 
-const HomePage = () => {
+const HomePage = (match: any) => {
     const loginPageBool = false;
+    const {id}: any = useParams();
     return (
         <div>
-            <Navbar loginPageBool = {loginPageBool} />
+            <Navbar loginPageBool = {loginPageBool} mainId = {id}/>
             <div className='HomePage'>
-                {/* <Sidebar 
-                    backgroundColor='#1DCED8'
-                    width='200px'>
-                    <Menu>
-                        <MenuItem 
-                            component={<Link to="/home"/>}
-                        >Home</MenuItem>
-                    </Menu>
-                </Sidebar> */}
-                <Sidebar />
-                <PumpTable />
+                <Sidebar {...id}/>
+                <PumpTable {...id}/>
             </div>
         </div>
     )
