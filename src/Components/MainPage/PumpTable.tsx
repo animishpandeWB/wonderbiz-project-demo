@@ -2,8 +2,11 @@ import React, {useState, useRef, useMemo, useEffect, useContext} from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 import axios from 'axios';
 import PumpStatusButton from './PumpStatusButton';
+import PumpIndex from './PumpIndex';
 import ViewButton from './ViewButton';
 import DeleteButton from './DeleteButton';
 import AddButton from './AddButton';
@@ -18,7 +21,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import { TextField } from '@mui/material';
+import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
@@ -48,28 +51,72 @@ const PumpTable: React.FC = (props:any) => {
     const [inputName, setInputName] = useState("");
     const [inputType, setInputType] = useState("");
     const [statusValue, setStatusValue] = React.useState("false");
+    const [pumpTypeSelect, setPumpTypeSelect] = React.useState("");
     const [columnData, setColumnData]: any[] = useState([
-        {field: "pumpId", headerName: "Pump ID"},
-        {field: "name", headerName: "Pump Name"},
-        {field: "type", headerName: "Pump Type"},
-        {field: "status", headerName: "Pump Status", cellRenderer: PumpStatusButton},
-        {field: "view", headerName: "View Pump", cellRenderer: ViewButton},
-        {field: "delete", headerName: "Delete Pump", cellRenderer: DeleteButton, suppressNavigable: true}
+        // {field: "pumpId", headerName: "Pump ID", headerClass: 'pumpStyle'},
+        {
+            field: "name", 
+            headerName: "Pump Name", 
+            headerClass: 'pumpStyle', 
+            flex: 1
+        },
+        {
+            field: "type", 
+            headerName: "Pump Type", 
+            headerClass: 'pumpStyle', 
+            flex: 1 
+        },
+        {
+            field: "status", 
+            headerName: "Pump Status", 
+            cellRenderer: PumpStatusButton, 
+            headerClass: 'pumpStyle', 
+            width: 150,
+            cellStyle: () => ({
+                textAlign: "center"
+            })
+        },
+        {
+            field: "view", 
+            headerName: "View Pump", 
+            cellRenderer: ViewButton, 
+            headerClass: 'pumpStyle', 
+            width: 150,
+            cellStyle: () => ({
+                textAlign: "center"
+            })
+        },
+        {
+            field: "delete", 
+            headerName: "Delete Pump", 
+            cellRenderer: DeleteButton, 
+            suppressNavigable: true, 
+            headerClass: 'pumpStyle', 
+            width: 150,
+            cellStyle: () => ({
+                textAlign: "center"
+            })
+        }
     ]);
     const navigate = useNavigate();
 
     const defaultColDef = useMemo( ()=> ({
         sortable: true,
         resizable: true,
+        
         // filter: true,
-        flex: 1,
+        // flex: 1,
       }), []);
+    
+    // const pumpIndex = PumpIndex;
+    // console.log(pumpIndex);
+    
     
     const gridRef: any = useRef();
     const propsData = props;
     // console.log(propsData[0]);
     const loginId = propsData[0];
-    console.log(loginId);
+    // console.log(loginId);
 
     
     useEffect(() => {
@@ -85,6 +132,7 @@ const PumpTable: React.FC = (props:any) => {
             setPumpsData(res.data);
         })
     }, []);
+    // console.log(`Pumpsdata: ${JSON.stringify(pumpsData.map((p:any) => p.pumpId))}`);
     useEffect(() => {
         setFilterSearch(pumpsData);
     }, [pumpsData]);
@@ -112,7 +160,7 @@ const PumpTable: React.FC = (props:any) => {
     }
 
     function handleAdd() {
-        console.log("Add clicked");
+        // console.log("Add clicked");
         setOpenDialog(true);
     }
     function handleClose() {
@@ -122,19 +170,19 @@ const PumpTable: React.FC = (props:any) => {
         setStatusValue(event.target.value);
     };
     const handleInputNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log("Input name changed");
+        // console.log("Input name changed");
         setInputName(event.target.value);
     }
-    const handleInputTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log("Input type changed");
-        setInputType(event.target.value);
-    }
+    // const handleInputTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     console.log("Input type changed");
+    //     setInputType(event.target.value);
+    // }
     function handleSubmit() {
         const statusVal = (statusValue === 'true')
         const payload = {
             "id": 0,
             "name": inputName,
-            "type": inputType,
+            "type": pumpTypeSelect,
             "status": statusVal,
             "userId": loginId,
             "user": null
@@ -144,6 +192,11 @@ const PumpTable: React.FC = (props:any) => {
                     console.log(response.data);
                 })
         window.location.reload();
+    }
+
+    const handlePumpTypeChange = (event: any) => {
+        setPumpTypeSelect(event.target.value);
+        console.log(event.target.value);
     }
     return (
         <div className='PumpTable'>
@@ -163,26 +216,32 @@ const PumpTable: React.FC = (props:any) => {
                                 variant="outlined"
                                 onChange={handleInputNameChange}
                             />
-                            <TextField
-                                color='success'
-                                margin="dense"
-                                id="type"
-                                label="Pump Type"
-                                type="text"
-                                fullWidth
-                                variant="outlined"
-                                onChange={handleInputTypeChange}
-                            />
+                            <FormControl fullWidth>
+                                <InputLabel color='success' id="demo-simple-select-label">Pump Type</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={pumpTypeSelect}
+                                    label="Pump Type"
+                                    onChange={handlePumpTypeChange}
+                                    color='success'
+                                >
+                                    <MenuItem value={"Centrifugal Pump"}>Centrifugal Pump</MenuItem>
+                                    <MenuItem value={"Jet Pump"}>Jet Pump</MenuItem>
+                                    <MenuItem value={"Piston Pump"}>Piston Pump</MenuItem>
+                                </Select>
+                            </FormControl>
                             <FormControl>
-                                <FormLabel id="demo-controlled-radio-buttons-group">Pump Status</FormLabel>
+                                <FormLabel color='success' id="demo-controlled-radio-buttons-group">Pump Status</FormLabel>
                                 <RadioGroup
+                                    color='success'
                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                     name="controlled-radio-buttons-group"
                                     value={statusValue}
                                     onChange={handleStatusChange}
                                 >
-                                <FormControlLabel value="true" control={<Radio />} label="On" />
-                                <FormControlLabel value="false" control={<Radio />} label="Off" />
+                                <FormControlLabel value="true" color='success' control={<Radio color='success'/>} label="On" />
+                                <FormControlLabel value="false" color='success' control={<Radio color='success'/>} label="Off" />
                                 </RadioGroup>
                             </FormControl>
                             

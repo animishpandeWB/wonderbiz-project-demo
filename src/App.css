@@ -1,6 +1,6 @@
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: white;
+  
 }
 
 /* .Navbar {
@@ -37,46 +37,49 @@ body {
   width: 80px;
   height: 50px;
   margin-left: auto;
-  padding-right: 87px;
+  padding-right: 0px;
   padding-top: -5px;
   padding-bottom: 0;
   margin-bottom: -5px;
   margin-top: 5px;
-  border: 0.8px solid #01A54F;
+  border: none;
   color: #01A54F;
 }
 
 .Login {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  width: 50%;
-  padding-bottom: 50px;
-  border-radius: 50px;
+  border: 0.5px solid black;
+  width: 60%;
+  padding-bottom: 0;
   margin-right: auto;
   margin-left: auto;
   margin-top: 50px;
-  background-color: #1DCED8;
+  background-color: white;
 }
 
 .Login--heading {
-  margin-top: 55px;
+  /* margin-top: 55px; */
   align-self: center;
 }
 
 .Login--username {
   padding: 5px;
-  border-radius: 5px;
-  border: none;
+  /* border-radius: 5px; */
+  outline: 0;
+  border-color: #01A54F;
+  border-width: 0 0 2px;
 }
 
 
 .Login--password {
   padding: 5px;
-  border-radius: 5px;
-  border: none;
+  outline: 0;
+  border-color: #01A54F;
+  border-width: 0 0 2px;
 }
 
 .error-msg {
@@ -94,9 +97,9 @@ body {
 .Login--submit-button {
   margin-top: 30px;
   margin-right: 10px;
-  padding: 5px 15px;
+  padding: 5px 25px;
   font-family: 'Montserrat', sans-serif;
-  background-color: #F6490D;
+  background-color: #01A54F;
   border: none;
   border-radius: 5px;
   color: white;
@@ -114,42 +117,45 @@ body {
 
 .Register--Page {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  width: 50%;
-  padding-bottom: 50px;
-  border-radius: 50px;
+  border: 0.5px solid black;
+  width: 60%;
+  padding-bottom: 0;
   margin-right: auto;
   margin-left: auto;
   margin-top: 50px;
-  text-align: center;
-  background-color: #1DCED8;
+  background-color: white;
 }
 
 .Form--username {
   padding: 5px;
-  border-radius: 5px;
-  border: none;
+  outline: 0;
+  border-color: #01A54F;
+  border-width: 0 0 2px;
 }
 
 .Form--email {
   padding: 5px;
-  border-radius: 5px;
-  border: none;
+  outline: 0;
+  border-color: #01A54F;
+  border-width: 0 0 2px;
 }
 
 .Form--password {
   padding: 5px;
-  border-radius: 5px;
-  border: none;
+  outline: 0;
+  border-color: #01A54F;
+  border-width: 0 0 2px;
 }
 
 .Form--confirm-password {
   padding: 5px;
-  border-radius: 5px;
-  border: none;
+  outline: 0;
+  border-color: #01A54F;
+  border-width: 0 0 2px;
 }
 
 .Form--submit-button {
@@ -157,9 +163,9 @@ body {
   margin-left: auto;
   margin-right: 10px;
   align-self: center;
-  padding: 5px 15px;
+  padding: 5px 25px;
   font-family: 'Montserrat', sans-serif;
-  background-color: #F6490D;
+  background-color: #01A54F;
   border: none;
   border-radius: 5px;
   color: white;
@@ -221,11 +227,11 @@ body {
 .ag-theme-alpine {
   width: 100%;
   height: 600px;
-  --ag-foreground-color: #03A64A;
+  background-color: #03A64A;
 }
 
 .Sidebar {
-  width: 230px;
+  width: 250px;
   border-right: 0.5px solid black;
   /* border-top: 1.5px solid black; */
 }
@@ -233,10 +239,11 @@ body {
 .Sidebar--home {
   width: 100%;
   border: none;
-  padding: 15px 0;
+  padding: 14px 0;
   font-family: 'Montserrat', sans-serif;
-  font-size: 17px;
+  font-size: 15px;
   background-color: #01A54F;
+  color: white;
   cursor: pointer;
 }
 
@@ -281,18 +288,37 @@ button {
   margin-left: auto;
   margin-right: auto;
   margin-top: 150px;
-  margin-bottom: 228px;
+  margin-bottom: 405px;
   background-color: #F5F5F5;
-  padding: 80px 200px;
+  padding-right: 10px;
 }
 
 .Profile--header {
-  text-align: center;
+  text-align: left;
   font-size: 25px;
   font-weight: 500;
+  margin-bottom: -10px;
 }
 
 .Profile--details {
   /* align-items: center; */
-  text-align: center;
+  text-align: left;
 }
+
+.Profile--hr {
+  width: 102%;
+}
+
+.Table--username {
+  padding-right: 150px;
+}
+
+.Table--email {
+  padding-right: 150px;
+}
+
+.pumpStyle {
+  color: #01A54F;
+  /* width: 150px; */
+}
+

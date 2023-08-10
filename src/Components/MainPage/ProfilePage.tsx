@@ -41,9 +41,20 @@ const ProfilePage: React.FC = () => {
                 <Sidebar {...id}/>
                 <div className='Profile'>
                     <p className='Profile--header'>User Profile</p>
+                    <hr className='Profile--hr'/>
                     <div className='Profile--details'>
-                        <p>Username: {userData.username}</p>
-                        <p>Email: {userData.email}</p>
+                        <table>
+                            <tr>
+                                <th className='Table--username'>Username</th>
+                                <td>{userData.username}</td>
+                            </tr>
+                            <tr>
+                                <th className='Table--email'>Email</th>
+                                <td>{userData.email}</td>
+                            </tr>
+                        </table>
+                        {/* <p>Username: {userData.username}</p>
+                        <p>Email: {userData.email}</p> */}
                     </div>
                 </div>
             </div>

@@ -1,0 +1,56 @@
+body {
+    background-color: white;
+}
+
+.Login--header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Login--mainLogo {
+    width: 100px;
+    margin-left: 25px;
+}
+
+.Login--companyName {
+    text-align: center;
+    /* align-self: center; */
+    margin-top: 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.Login--content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 50%;
+    padding-bottom: 50px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    background-color: white;
+  }
+
+.Login--labels {
+    margin-top: 15px;
+}
+
+.Register--content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 50%;
+    padding-bottom: 50px;
+    border-radius: 50px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    text-align: center;
+    background-color: white;
+}

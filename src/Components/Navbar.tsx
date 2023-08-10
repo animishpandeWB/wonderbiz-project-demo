@@ -1,19 +1,21 @@
 import React from 'react';
-import mainLogo from '../Assets/Images/wonderbiz-logo.jpg';
+// import mainLogo from '../Assets/Images/wonderbiz-logo.jpg';
 import userLogo from '../Assets/Images/user.png';
 import companyLogo from '../Assets/Images/company-logo.jpg';
 import userProfile from '../Assets/Images/user-profile.png';
 import { Link } from 'react-router-dom';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const NavBar: React.FC<{loginPageBool: boolean, mainId: any}> = ({loginPageBool, mainId}) => {
+    const navigate = useNavigate();
     function dropDown() {
         // console.log(mainId);
         return (
             <NavDropdown title = {<button className='Navbar--user'><img src={userProfile} className='userProfile'/>Admin</button>} id='basic-nav-dropdown'>
-                <NavDropdown.Item href="/login">Logout</NavDropdown.Item>
                 <NavDropdown.Item href={`/profile/${mainId}`}>Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/login">Logout</NavDropdown.Item>
             </NavDropdown>
         )
     }

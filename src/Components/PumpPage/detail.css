@@ -11,7 +11,7 @@
 
 .PumpGraph--graph {
     width: auto;
-    height: auto;
+    height: 310px;
     margin-left: auto;
     margin-right: none;
 }
@@ -55,10 +55,13 @@
 .PumpImg--heading {
     text-align: center;
     border-bottom: 0.5px solid black;
+    background-color: #01A54F;
+    color: white;
 }
 
 .PumpGraph--pumpInfo {
     width: 50%;
+    min-height: 48.5vh;
 }
 
 .PumpGraph--pumpDetails {
@@ -68,4 +71,5 @@
 
 .pumpDetailPara {
     max-width: 550px;
+    margin-top: -10px;
 }

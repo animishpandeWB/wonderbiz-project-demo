@@ -7,7 +7,7 @@ const PumpApplication = [
     },
     {
         "type": "Piston Pump",
-        "Definition": "A piston pump is a type of positive displacement pump where the high-pressure seal reciprocates with the piston.[1] Piston pumps can be used to move liquids or compress gases. They can operate over a wide range of pressures. High pressure operation can be achieved without adversely affecting flow rate."
+        "Definition": "A piston pump is a type of positive displacement pump where the high-pressure seal reciprocates with the piston. Piston pumps can be used to move liquids or compress gases. They can operate over a wide range of pressures. High pressure operation can be achieved without adversely affecting flow rate."
     },
     {
         "type": "Centrifugal Pump",

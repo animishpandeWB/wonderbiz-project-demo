@@ -4,17 +4,17 @@ import Navbar from '../Navbar';
 import { useNavigate } from 'react-router-dom';
 // import UserContext  from './UserContext';
 import axios from 'axios';
-import { userInfo } from 'os';
+// import { userInfo } from 'os';
+import companyLogo from '../../Assets/Images/company-logo.jpg';
+import './loginCss.css';
 
 const api = axios.create({
     baseURL: `http://localhost:5148/`
 })
-// const baseURL = `http://localhost:5148`;
+
 let UserContext: any;
 const Login: React.FC = () => {
  
-    
-    // console.log(getRequest);
     
 
     const [email, setEmail] = useState('');
@@ -25,20 +25,11 @@ const Login: React.FC = () => {
     const [loggedIn, SetLoggedIn] = useState('');
     const loginPageBool = true;
     let userId: any;
-    
-    
-
-    // useEffect(() => {
-    //     axios.get(baseURL).then((res) => {
-    //         setApiData(res.data);
-    //     });
-    // }, []);
 
     useEffect(() => {
         api.get('/api/User').then(res => {
             setApiData(res.data);
         });
-        // console.log(apiData);
     });
 
     const handleLogin = () => {
@@ -49,81 +40,68 @@ const Login: React.FC = () => {
             "email": email,
             "password": password
         }
-
-        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/;
-
-        // if(!emailRegex.test(email)) {
-        //     setEmailError("Enter a valid email address");
-        // }else if(!passwordRegex.test(password)) {
-        //     setPasswordError("Enter a valid password with minimum 8 characters and atleast 1 number and 1 letter");
-        // }else {
-        //     console.log(submitObject);
-        // }
         
         apiData.map((d: any) => {
             if(email === d.email && password == d.password) {
-                // UserContext = createContext(d.userId);
                 userId = d.userId;
                 navigate(`/home/${userId}`);
                 return;
             }else {
-                // alert("Login Failed");
                 SetLoggedIn("Login Failed");
             }
         });
-
-        
     }
-
-    // const handleRegister = () => {
-    //     // console.log("New register page opening");
-    //     // <Link to="/user-register"></Link>
-    // }
-    
 
     const navigate = useNavigate();
 
     return (
         <div>
             <Navbar loginPageBool = {loginPageBool} mainId={userId}/>
-            <div className='Login'>
-                <h2 className='Login--heading'>User login</h2>
-                    {loggedIn && <span className='error-msg'>{loggedIn}</span>}
-                    <p>Email:</p>
-                    <input 
-                        type='email' 
-                        name='email' 
-                        placeholder='Email' 
-                        autoComplete='off'
-                        className='Login--username'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    {emailError && <span className='error-msg'>{emailError}</span>}
-                    <p>Password:</p>
-                    <input 
-                        type='password' 
-                        name='password' 
-                        placeholder='Password' 
-                        className='Login--password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {passwordError && <span className='error-msg'>{passwordError}</span>}
-                    <br />
-                    <div className='Login--buttons'>
-                        <button 
-                            className='Login--submit-button'
-                            onClick={handleLogin}
-                        >Submit</button>
-                        <button 
-                            className='Register--user-button'
-                            onClick={() => navigate("/user-register")}
-                        >Register</button>
-                    </div>
-                    <a href="/" className='forgot-password'>Forgot Password?</a>
-            </div>
+                <div className='Login'>
+                    <span className='Login--header'>
+                        <img src={companyLogo} alt="mainLogo" className='Login--mainLogo' />
+                        <p className='Login--companyName'>StreamFlow Pumps</p>
+                    </span>
+                    <span className='Login--content'>
+                        <h2 className='Login--heading'>User login</h2>
+                        {loggedIn && <span className='error-msg'>{loggedIn}</span>}
+                        <p className='Login--labels'>Email:</p>
+                        <input 
+                            type='email' 
+                            name='email' 
+                            placeholder='Email' 
+                            autoComplete='off'
+                            className='Login--username'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        {emailError && <span className='error-msg'>{emailError}</span>}
+                        <p className='Login--labels'>Password:</p>
+                        <input 
+                            type='password' 
+                            name='password' 
+                            placeholder='Password' 
+                            className='Login--password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        {passwordError && <span className='error-msg'>{passwordError}</span>}
+                        <br />
+                        <div className='Login--buttons'>
+                            <button 
+                                className='Login--submit-button'
+                                onClick={handleLogin}
+                            >Submit</button>
+                            {/* <button 
+                                className='Register--user-button'
+                                onClick={() => navigate("/user-register")}
+                            >Register</button> */}
+                        </div>
+                        <a href="/user-register" className='forgot-password'>Sign Up</a>
+                        <a href="/" className='forgot-password'>Forgot Password?</a>
+                    </span>
+                    
+                </div>
         </div>
         
     )

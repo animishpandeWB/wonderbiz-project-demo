@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import companyLogo from '../../Assets/Images/company-logo.jpg';
 
 const api = axios.create({
     baseURL: `http://localhost:5148/`
@@ -57,6 +58,7 @@ const Register: React.FC = () => {
             axios.post("http://localhost:5148/api/User", payload)
                 .then((response) => {
                     console.log(response.data);
+                    navigate("/login");
                 })
             alert("Successfully Registered!");
         }
@@ -67,63 +69,70 @@ const Register: React.FC = () => {
         <div className='Register'>
             <Navbar loginPageBool = {loginPageBool} mainId={id}/>
             <div className='Register--Page'>
-                <h2>User Registration</h2>
-                <div className='Register--form'>
-                    <p>Username:</p>
-                    <input 
-                        type='text' 
-                        name='username' 
-                        placeholder='Username' 
-                        autoComplete='off' 
-                        className='Form--username'
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <br />
-                    {usernameError && <span className='error-msg'>{usernameError}</span>}
-                    <p>Email:</p>
-                    <input 
-                        type='email' 
-                        name='email' 
-                        placeholder='Email' 
-                        autoComplete='off' 
-                        className='Form--email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <br />
-                    {emailError && <span className='error-msg'>{emailError}</span>}
-                    <p>Password:</p>
-                    <input 
-                        type='password' 
-                        name='password' 
-                        placeholder='Password' 
-                        className='Form--password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <br />
-                    {passwordError && <span className='error-msg'>{passwordError}</span>}
-                    <p>Confirm Password:</p>
-                    <input 
-                        type='password' 
-                        name='confirm-password' 
-                        placeholder='Confirm Password' 
-                        className='Form--confirm-password'
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                    <br />
-                    {confirmPasswordError && <span className='error-msg'>{confirmPasswordError}</span>}
-                    <button 
-                        className='Form--submit-button'
-                        onClick={handleRegister}    
-                    >Register</button>
-                    <button 
-                        className='Form--submit-button'
-                        onClick={() => navigate("/login")}    
-                    >Login</button>
-                </div>
+                <span className='Login--header'>
+                        <img src={companyLogo} alt="mainLogo" className='Login--mainLogo' />
+                        <p className='Login--companyName'>StreamFlow Pumps</p>
+                </span>
+                <span className='Register--content'>
+                    <h2>User Registration</h2>
+                    <div className='Register--form'>
+                        <p className='Login--labels'>Username:</p>
+                        <input 
+                            type='text' 
+                            name='username' 
+                            placeholder='Username' 
+                            autoComplete='off' 
+                            className='Form--username'
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <br />
+                        {usernameError && <span className='error-msg'>{usernameError}</span>}
+                        <p className='Login--labels'>Email:</p>
+                        <input 
+                            type='email' 
+                            name='email' 
+                            placeholder='Email' 
+                            autoComplete='off' 
+                            className='Form--email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <br />
+                        {emailError && <span className='error-msg'>{emailError}</span>}
+                        <p className='Login--labels'>Password:</p>
+                        <input 
+                            type='password' 
+                            name='password' 
+                            placeholder='Password' 
+                            className='Form--password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <br />
+                        {passwordError && <span className='error-msg'>{passwordError}</span>}
+                        <p className='Login--labels'>Confirm Password:</p>
+                        <input 
+                            type='password' 
+                            name='confirm-password' 
+                            placeholder='Confirm Password' 
+                            className='Form--confirm-password'
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                        <br />
+                        {confirmPasswordError && <span className='error-msg'>{confirmPasswordError}</span>}
+                        <button 
+                            className='Form--submit-button'
+                            onClick={handleRegister}    
+                        >Register</button>
+                        {/* <button 
+                            className='Form--submit-button'
+                            onClick={() => navigate("/login")}    
+                        >Login</button> */}
+                    </div>
+                    <a href="/login" className='forgot-password'>Back to Login</a>
+                </span>
             </div>
         </div>
     );
