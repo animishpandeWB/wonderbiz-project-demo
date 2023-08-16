@@ -21,6 +21,18 @@ body {
     font-weight: bold;
 }
 
+.Login--emailSpan{
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Login--passwordSpan{
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
 .Login--content {
     display: flex;
     flex-direction: column;
@@ -36,7 +48,12 @@ body {
   }
 
 .Login--labels {
+    display: block;
     margin-top: 15px;
+    margin-right: 50px;
+    justify-content: center;
+    /* align-content: start; */
+    /* padding-left: 10px; */
 }
 
 .Register--content {
@@ -53,4 +70,34 @@ body {
     margin-top: 50px;
     text-align: center;
     background-color: white;
+}
+
+.Register--labels {
+    display: block;
+    margin-top: 15px;
+}
+
+/* .email-header {
+    margin-right: 50px;
+} */
+
+.username--div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.email--div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.password--div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.confirmPassword--div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
 }

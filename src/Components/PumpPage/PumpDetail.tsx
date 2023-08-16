@@ -15,14 +15,14 @@ const PumpDetail: React.FC = (match: any) => {
     // console.log(mainId);
     return (
         <div>
-            <NavBar loginPageBool = {loginPageBool} mainId = {mainId}/>
-            
+            <NavBar loginPageBool={loginPageBool} mainId={mainId} />
+
             <div className='PumpDetail'>
-                <Sidebar {...mainId}/>  
-                <PumpGraph {...id} />  
+                <Sidebar {...mainId} />
+                <PumpGraph {...id} />
             </div>
         </div>
-        
+
     );
 }
 

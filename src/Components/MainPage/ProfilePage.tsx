@@ -12,7 +12,7 @@ const ProfilePage: React.FC = () => {
     const loginPageBool = false;
     const [userData, setUserData]: any[] = useState([]);
     const [pumpToUser, setPumpToUser]: any[] = useState([]);
-    const {id}: any = useParams();
+    const { id }: any = useParams();
 
     useEffect(() => {
         axios.get(`http://localhost:5148/api/User/${id}`)
@@ -36,12 +36,13 @@ const ProfilePage: React.FC = () => {
     // }));
     return (
         <div>
-            <NavBar loginPageBool={loginPageBool} mainId = {userId}/>
+            <NavBar loginPageBool={loginPageBool} mainId={userId} />
+
             <div className='ProfilePage'>
-                <Sidebar {...id}/>
+                <Sidebar {...id} />
                 <div className='Profile'>
                     <p className='Profile--header'>User Profile</p>
-                    <hr className='Profile--hr'/>
+                    <hr className='Profile--hr' />
                     <div className='Profile--details'>
                         <table>
                             <tr>
@@ -53,8 +54,6 @@ const ProfilePage: React.FC = () => {
                                 <td>{userData.email}</td>
                             </tr>
                         </table>
-                        {/* <p>Username: {userData.username}</p>
-                        <p>Email: {userData.email}</p> */}
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, {useState, useRef, useMemo, useEffect, useContext} from 'react';
+import React, { useState, useRef, useMemo, useEffect, useContext } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -10,7 +10,8 @@ import PumpIndex from './PumpIndex';
 import ViewButton from './ViewButton';
 import DeleteButton from './DeleteButton';
 import AddButton from './AddButton';
-import SearchButton from '../../Assets/Images/magnifying-glass.png';
+import SearchButton from '../../Assets/Images/icons8-search-50.png';
+import './pumpTable.css';
 import '../../App.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
@@ -41,9 +42,10 @@ const baseURL3 = `http://localhost:3000/pump`;
 //     pumpStatus: boolean
 // }
 
-const PumpTable: React.FC = (props:any) => {
+const PumpTable: React.FC = (props: any) => {
 
     const [searchInput, setSearchInput] = useState("");
+    const [pumpNum, setPumpNum]: any[] = useState([]);
     const [apiData, setApiData]: any[] = useState([]);
     const [pumpsData, setPumpsData]: any[] = useState([]);
     const [filterSearch, setFilterSearch]: any[] = useState(pumpsData);
@@ -55,43 +57,50 @@ const PumpTable: React.FC = (props:any) => {
     const [columnData, setColumnData]: any[] = useState([
         // {field: "pumpId", headerName: "Pump ID", headerClass: 'pumpStyle'},
         {
-            field: "name", 
-            headerName: "Pump Name", 
-            headerClass: 'pumpStyle', 
-            flex: 1
+            field: "name",
+            headerName: "Pump Name",
+            headerClass: 'pumpStyle',
+            flex: 1,
+            rowClass: 'pumpRowStyle',
+            cellStyle: () => ({
+                fontSize: '16px'
+            })
         },
         {
-            field: "type", 
-            headerName: "Pump Type", 
-            headerClass: 'pumpStyle', 
-            flex: 1 
+            field: "type",
+            headerName: "Pump Type",
+            headerClass: 'pumpStyle',
+            flex: 1,
+            cellStyle: () => ({
+                fontSize: '16px'
+            })
         },
         {
-            field: "status", 
-            headerName: "Pump Status", 
-            cellRenderer: PumpStatusButton, 
-            headerClass: 'pumpStyle', 
+            field: "status",
+            headerName: "Pump Status",
+            cellRenderer: PumpStatusButton,
+            headerClass: 'pumpStyle',
             width: 150,
             cellStyle: () => ({
                 textAlign: "center"
             })
         },
         {
-            field: "view", 
-            headerName: "View Pump", 
-            cellRenderer: ViewButton, 
-            headerClass: 'pumpStyle', 
+            field: "view",
+            headerName: "View Pump",
+            cellRenderer: ViewButton,
+            headerClass: 'pumpStyle',
             width: 150,
             cellStyle: () => ({
                 textAlign: "center"
             })
         },
         {
-            field: "delete", 
-            headerName: "Delete Pump", 
-            cellRenderer: DeleteButton, 
-            suppressNavigable: true, 
-            headerClass: 'pumpStyle', 
+            field: "delete",
+            headerName: "Delete Pump",
+            cellRenderer: DeleteButton,
+            suppressNavigable: true,
+            headerClass: 'pumpStyle',
             width: 150,
             cellStyle: () => ({
                 textAlign: "center"
@@ -100,63 +109,75 @@ const PumpTable: React.FC = (props:any) => {
     ]);
     const navigate = useNavigate();
 
-    const defaultColDef = useMemo( ()=> ({
+    const defaultColDef = useMemo(() => ({
         sortable: true,
-        resizable: true,
-        
+        resizable: false,
         // filter: true,
         // flex: 1,
-      }), []);
-    
+    }), []);
+
     // const pumpIndex = PumpIndex;
     // console.log(pumpIndex);
-    
-    
+
+
     const gridRef: any = useRef();
     const propsData = props;
     // console.log(propsData[0]);
     const loginId = propsData[0];
     // console.log(loginId);
 
-    
+
     useEffect(() => {
         axios.get(UserURL)
-        .then((res) => {
-            setApiData(res.data);  
-        })
+            .then((res) => {
+                setApiData(res.data);
+            })
     }, []);
     // console.log(apiData);
     useEffect(() => {
         axios.get(`http://localhost:5148/api/Pump/Users/${propsData[0]}`)
-        .then((res) => {
-            setPumpsData(res.data);
-        })
+            .then((res) => {
+                setPumpsData(res.data);
+            })
     }, []);
+    useEffect(() => {
+        axios.get(`http://localhost:5148/api/Pump`)
+            .then((res) => {
+                setPumpNum(res.data);
+            })
+    }, []);
+
     // console.log(`Pumpsdata: ${JSON.stringify(pumpsData.map((p:any) => p.pumpId))}`);
     useEffect(() => {
         setFilterSearch(pumpsData);
     }, [pumpsData]);
+    let pumpId = 0;
+    pumpNum.map((pump: any) => {
+        pumpId = pump.pumpId;
+    })
+    // console.log(pumpsData);
+    // console.log(pumpId);
     // const usingContextData = useContext(UserContext);
     // console.log("Using context data: " + usingContextData);
-    
+
     const handleChange = (e: HTMLInputElement): void => {
         setSearchInput(e.value);
     };
-    
     function handleSearch() {
         pumpsData.map((pump: any) => {
-            if(pump.name == searchInput) {
+            if (pump.name == searchInput) {
                 console.log(pump.name + " found");
                 setFilterSearch([pump]);
                 return;
-            }else {
+            } else {
                 // window.location.reload();
             }
         })
     }
 
+    // console.log("PropsData[0] + " + propsData[0]);
     function cellClickedListener(pump: any) {
-        navigate(`/pump/${pump.data.pumpId}`, {state: propsData[0]});
+        navigate(`/pump/${pump.data.pumpId}`, { state: propsData[0] });
     }
 
     function handleAdd() {
@@ -180,7 +201,7 @@ const PumpTable: React.FC = (props:any) => {
     function handleSubmit() {
         const statusVal = (statusValue === 'true')
         const payload = {
-            "id": 0,
+            "pumpId": (pumpId + 1),
             "name": inputName,
             "type": pumpTypeSelect,
             "status": statusVal,
@@ -188,9 +209,9 @@ const PumpTable: React.FC = (props:any) => {
             "user": null
         }
         axios.post("http://localhost:5148/api/Pump", payload)
-                .then((response) => {
-                    console.log(response.data);
-                })
+            .then((response) => {
+                console.log(response.data);
+            })
         window.location.reload();
     }
 
@@ -240,11 +261,10 @@ const PumpTable: React.FC = (props:any) => {
                                     value={statusValue}
                                     onChange={handleStatusChange}
                                 >
-                                <FormControlLabel value="true" color='success' control={<Radio color='success'/>} label="On" />
-                                <FormControlLabel value="false" color='success' control={<Radio color='success'/>} label="Off" />
+                                    <FormControlLabel value="true" color='success' control={<Radio color='success' />} label="On" />
+                                    <FormControlLabel value="false" color='success' control={<Radio color='success' />} label="Off" />
                                 </RadioGroup>
                             </FormControl>
-                            
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} color='success'>Cancel</Button>
@@ -252,16 +272,19 @@ const PumpTable: React.FC = (props:any) => {
                         </DialogActions>
                     </Dialog>
                 </div>
-                <input 
-                    type='text'
-                    className='PumpTable--searchbar'
-                    placeholder='Search here'
-                    onChange={(e) => handleChange(e.target)}
-                    value={searchInput}
-                />
-                <button onClick={handleSearch}><img src={SearchButton} className='searchBtn'/></button>
+                <div className='SearchBar'>
+                    <input
+                        type='text'
+                        className='PumpTable--searchbar'
+                        placeholder='Search here'
+                        onChange={(e) => handleChange(e.target)}
+                        value={searchInput}
+                    />
+                    <button onClick={handleSearch}><img src={SearchButton} className='searchBtn' /></button>
+                </div>
+
             </div>
-            
+
             <div className="ag-theme-alpine">
 
                 <AgGridReact
@@ -269,17 +292,20 @@ const PumpTable: React.FC = (props:any) => {
                     rowData={filterSearch}
 
                     columnDefs={columnData}
-                    defaultColDef={defaultColDef} 
+                    defaultColDef={defaultColDef}
 
-                    animateRows={true} 
-                    rowSelection='single' 
+                    animateRows={true}
+                    rowSelection='single'
+                    rowClass={'pumpRowStyle'}
+                    rowHeight={54}
 
-                    onCellClicked={(cellClickedListener)} 
+
+                    // onCellClicked={(cellClickedListener)}
                     pagination={true}
                     paginationPageSize={10}
-                    />
+                />
             </div>
-            
+
             {/* <Table striped bordered hover className='PumpTable--table'>
                 <thead>
                     <tr className='table--row'>
@@ -306,7 +332,7 @@ const PumpTable: React.FC = (props:any) => {
                     )})
                 }
             </Table> */}
-        
+
         </div>
     )
 }

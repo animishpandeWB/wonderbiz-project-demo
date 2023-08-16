@@ -1,3 +1,7 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 .PumpDetail {
     display: flex;
     flex-direction: row;
@@ -7,38 +11,47 @@
 .PumpGraph {
     display: flex;
     flex-direction: column;
+    border-left: 0.2px solid black;
 }
 
 .PumpGraph--graph {
     width: auto;
-    height: 310px;
-    margin-left: auto;
-    margin-right: none;
+    height: 300px;
+    margin-left: 0;
+    margin-right: 0;
+    /* box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px; */
+    border-radius: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border-bottom: 0.5px solid black;
 }
 
 .PumpGraph--heading {
     width: 100%;
-    border: 0.3px solid black;
+    /* border: 0.3px solid black; */
 }
 
 .PumpGraph--bottomDetail {
     display: flex;
     flex-direction: row;
-    border-top: 0.5px solid black;
+    /* margin-left: auto;
+    margin-right: auto; */
 }
-
-/* .PumpGraph--bottomDetail {
-    border: 0.3px solid black;
-} */
 
 .PumpImg {
     width: 50%;
     height: auto;
-    /* height: 200px; */
     display: flex;
     flex-direction: column;
-    text-align: center;
-    border-right: 0.5px solid black;
+    align-content: flex-start;
+    text-align: left;
+    /* border: 0.2px solid black; */
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    /* box-shadow: 15px 0 10px #B5FE83; */
+    /* box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; */
+    margin-left: 5px;
 }
 
 .PumpImg--img {
@@ -49,12 +62,14 @@
     height: auto;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .PumpImg--heading {
-    text-align: center;
-    border-bottom: 0.5px solid black;
+    text-align: left;
+    padding-left: 10px;
+    border-radius: 2px;
+    /* border-bottom: 0.5px solid black; */
     background-color: #01A54F;
     color: white;
 }
@@ -62,11 +77,20 @@
 .PumpGraph--pumpInfo {
     width: 50%;
     min-height: 48.5vh;
+    border-radius: 5px;
+    align-content: flex-end;
+    /* border: 0.2px solid black; */
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    /* box-shadow: 15px 0 10px #B5FE83; */
+    /* box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; */
+    margin: 0 5px;
 }
 
 .PumpGraph--pumpDetails {
     padding-left: 20px;
     justify-content: center;
+    padding-left: 25px;
 }
 
 .pumpDetailPara {

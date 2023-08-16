@@ -14,23 +14,28 @@ const api = axios.create({
 
 let UserContext: any;
 const Login: React.FC = () => {
- 
-    
 
+
+    const [userIdFromDb, setUserIdFromDb]: any = useState([]);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [apiData, setApiData]: any[] = useState([]);
     const [loggedIn, SetLoggedIn] = useState('');
+    const [checkPassword, setCheckPassword]: any[] = useState([]);
     const loginPageBool = true;
+    const [checkUserPass, setCheckUserPass]: any = useState();
     let userId: any;
+
 
     useEffect(() => {
         api.get('/api/User').then(res => {
             setApiData(res.data);
         });
-    });
+    }, []);
+    // console.log(apiData.map((p: any) => console.log(p.userId)));
+
 
     const handleLogin = () => {
         setEmailError('');
@@ -40,13 +45,30 @@ const Login: React.FC = () => {
             "email": email,
             "password": password
         }
-        
+
         apiData.map((d: any) => {
-            if(email === d.email && password == d.password) {
-                userId = d.userId;
+            userId = d.userId;
+            // && password == d.password
+            const payload = {
+                "userId": userId,
+                "password": password
+            }
+            if (email === d.email) {
+                axios.post('http://localhost:5148/api/UserAuth', {
+                    userId: userId,
+                    password: password
+                })
+                    .then((response) => {
+                        // console.log("User Login: " + response.data);
+                        setCheckUserPass(response.data);
+                    })
+
+            }
+            if (checkUserPass) {
+                // console.log(userId);
                 navigate(`/home/${userId}`);
-                return;
-            }else {
+                // return;
+            } else {
                 SetLoggedIn("Login Failed");
             }
         });
@@ -56,55 +78,62 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <Navbar loginPageBool = {loginPageBool} mainId={userId}/>
-                <div className='Login'>
-                    <span className='Login--header'>
-                        <img src={companyLogo} alt="mainLogo" className='Login--mainLogo' />
-                        <p className='Login--companyName'>StreamFlow Pumps</p>
-                    </span>
-                    <span className='Login--content'>
-                        <h2 className='Login--heading'>User login</h2>
-                        {loggedIn && <span className='error-msg'>{loggedIn}</span>}
-                        <p className='Login--labels'>Email:</p>
-                        <input 
-                            type='email' 
-                            name='email' 
-                            placeholder='Email' 
+            <Navbar loginPageBool={loginPageBool} mainId={userId} />
+            <div className='Login'>
+                <span className='Login--header'>
+                    <img src={companyLogo} alt="mainLogo" className='Login--mainLogo' />
+                    <p className='Login--companyName'>StreamFlow Pumps</p>
+                </span>
+                <span className='Login--content'>
+                    <h2 className='Login--heading'>User login</h2>
+                    {loggedIn && <span className='error-msg'>{loggedIn}</span>}
+                    <div className='Login--emailSpan'>
+                        <label className='Login--labels' htmlFor='email'>Email:</label>
+                        <input
+                            id='email'
+                            type='email'
+                            name='email'
+                            placeholder='Email'
                             autoComplete='off'
                             className='Login--username'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        {emailError && <span className='error-msg'>{emailError}</span>}
-                        <p className='Login--labels'>Password:</p>
-                        <input 
-                            type='password' 
-                            name='password' 
-                            placeholder='Password' 
+                    </div>
+                    {emailError && <span className='error-msg'>{emailError}</span>}
+                    <div className='Login--passwordSpan'>
+                        <label className='Login--labels' htmlFor="password">Password:</label>
+                        <input
+                            id='password'
+                            type='password'
+                            name='password'
+                            placeholder='Password'
                             className='Login--password'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        {passwordError && <span className='error-msg'>{passwordError}</span>}
-                        <br />
-                        <div className='Login--buttons'>
-                            <button 
-                                className='Login--submit-button'
-                                onClick={handleLogin}
-                            >Submit</button>
-                            {/* <button 
+                    </div>
+
+                    {passwordError && <span className='error-msg'>{passwordError}</span>}
+                    <br />
+                    <div className='Login--buttons'>
+                        <button
+                            className='Login--submit-button'
+                            onClick={handleLogin}
+                        >Submit</button>
+                        {/* <button 
                                 className='Register--user-button'
                                 onClick={() => navigate("/user-register")}
                             >Register</button> */}
-                        </div>
-                        <a href="/user-register" className='forgot-password'>Sign Up</a>
-                        <a href="/" className='forgot-password'>Forgot Password?</a>
-                    </span>
-                    
-                </div>
+                    </div>
+                    <a href="/user-register" className='forgot-password'>Sign Up</a>
+                    <a href="/" className='forgot-password'>Forgot Password?</a>
+                </span>
+
+            </div>
         </div>
-        
+
     )
 }
 
-export {Login, UserContext};
+export { Login, UserContext };

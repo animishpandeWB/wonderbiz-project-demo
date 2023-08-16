@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import deleteBtn from '../../Assets/Images/icons8-delete-48.png';
+import React, { useEffect, useState } from 'react';
+import deleteBtn from '../../Assets/Images/icons8-delete-50.png';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -17,12 +17,16 @@ const DeleteButton: React.FC = (props: any) => {
     }, [])
 
     function handleDelete() {
-        axios.delete(`${baseURL2}/${props.data.pumpId}`)
-            .then(() => navigate(`/home/${userData[0].userId}`));
         console.log(props.data.pumpId)
+        axios.delete(`${baseURL2}/${props.data.pumpId}`)
+            .then(() => window.location.reload())
+
+        return;
+        // console.log(props.data.pumpId)
+        // console.log(userData[0].userId)
     }
     return (
-        <span><img src={deleteBtn} className='viewBtn' onClick={handleDelete}/></span>
+        <span><img src={deleteBtn} className='viewBtn' onClick={handleDelete} /></span>
     );
 }
 

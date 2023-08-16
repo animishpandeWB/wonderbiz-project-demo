@@ -1,0 +1,96 @@
+.pumpStyle {
+    background-color: #01A54F;
+    color: white;
+    /* padding: 0; */
+    /* margin-left: 10px; */
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    /* --ag-header-background-color: #B5FE83; */
+    /* border-radius: 15px; */
+    /* width: 150px; */
+}
+
+.pumpStyle :hover {
+    background-color: #01A54F;
+    color: white;
+    /* border-radius: 15px; */
+    /* width: 150px; */
+}
+
+.pumpRowStyle {
+    font-family: 'Roboto', sans-serif;
+    /* background-color: white; */
+    --ag-odd-row-background-color: #F6FBF4;
+    --ag-even-row-background-color: white;
+    border-radius: 2px;
+    /* padding: 15px 0; */
+    /* margin: 15px 0; */
+}
+
+AgGridReact {
+    --ag-borders: none;
+}
+
+.SearchBar {
+    display: flex;
+    padding: 2px;
+    /* border: 1px solid currentColor; */
+    /* border-radius: 5px; */
+}
+
+.PumpTable--searchbar {
+    /* border: 0.5px solid black; */
+    background: #F6FBF4;
+    margin: 0;
+    padding: 7px 8px;
+    font-size: 14px;
+    color: inherit;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    margin-left: 15px;
+    /* margin-right: 15px; */
+    /* margin-top: 7px;
+    margin-bottom: 7px;
+    padding: 5px 5px;
+    border-radius: 10px;
+    border: 0.5px solid black;
+    background-color: white; */
+}
+
+.PumpTable--searchbar :focus {
+    background: transparent;
+    border-radius: 2px;
+    outline: none;
+    border: none;
+}
+
+.searchBtn {
+    text-indent: -99999px;
+    overflow: hidden;
+    width: 40px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    width: 25px;
+    cursor: pointer;
+    opacity: 0.7;
+    margin-left: -50px;
+}
+
+.searchBtn :hover {
+    opacity: 1;
+}
+
+.homeButton {
+    border: none;
+    padding: 14px 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #01A54F;
+    color: white;
+    cursor: pointer;
+    border-bottom: 0.2px solid black;
+    font-size: 15px;
+}
