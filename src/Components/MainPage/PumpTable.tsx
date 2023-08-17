@@ -8,6 +8,7 @@ import axios from 'axios';
 import PumpStatusButton from './PumpStatusButton';
 import PumpIndex from './PumpIndex';
 import ViewButton from './ViewButton';
+import deleteBtn from '../../Assets/Images/icons8-delete-50.png';
 import DeleteButton from './DeleteButton';
 import AddButton from './AddButton';
 import SearchButton from '../../Assets/Images/icons8-search-50.png';
@@ -26,6 +27,9 @@ import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { GridApi } from 'ag-grid-community';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 // const api = axios.create({
@@ -33,6 +37,7 @@ import FormLabel from '@mui/material/FormLabel';
 // })
 const UserURL = `http://localhost:5148/api/User`;
 const PumpURL = `http://localhost:5148/api/Pump/Users`;
+const baseURL2 = `http://localhost:5148/api/Pump`;
 const baseURL3 = `http://localhost:3000/pump`;
 
 // interface PumpData {
@@ -54,6 +59,9 @@ const PumpTable: React.FC = (props: any) => {
     const [inputType, setInputType] = useState("");
     const [statusValue, setStatusValue] = React.useState("false");
     const [pumpTypeSelect, setPumpTypeSelect] = React.useState("");
+    const [seed, setSeed]: any = useState(1);
+    const [gridApi, setGridApi]: any = useState(null);
+
     const [columnData, setColumnData]: any[] = useState([
         // {field: "pumpId", headerName: "Pump ID", headerClass: 'pumpStyle'},
         {
@@ -115,7 +123,9 @@ const PumpTable: React.FC = (props: any) => {
         // filter: true,
         // flex: 1,
     }), []);
-
+    const handleDelete = (pump: any) => {
+        console.log(pump.value);
+    }
     // const pumpIndex = PumpIndex;
     // console.log(pumpIndex);
 
@@ -125,6 +135,16 @@ const PumpTable: React.FC = (props: any) => {
     // console.log(propsData[0]);
     const loginId = propsData[0];
     // console.log(loginId);
+    // const gridApi: any = GridApi;
+    const onGridReady = (params: any) => {
+        setGridApi(params.api);
+    };
+
+    const refreshGrid = () => {
+        if (gridApi) {
+            gridApi.refreshCells();
+        }
+    };
 
 
     useEffect(() => {
@@ -147,6 +167,7 @@ const PumpTable: React.FC = (props: any) => {
             })
     }, []);
 
+
     // console.log(`Pumpsdata: ${JSON.stringify(pumpsData.map((p:any) => p.pumpId))}`);
     useEffect(() => {
         setFilterSearch(pumpsData);
@@ -156,7 +177,7 @@ const PumpTable: React.FC = (props: any) => {
         pumpId = pump.pumpId;
     })
     // console.log(pumpsData);
-    // console.log(pumpId);
+    // console.log("PumpId: " + pumpId);
     // const usingContextData = useContext(UserContext);
     // console.log("Using context data: " + usingContextData);
 
@@ -171,6 +192,7 @@ const PumpTable: React.FC = (props: any) => {
                 return;
             } else {
                 // window.location.reload();
+                // gridApi.refreshCells();
             }
         })
     }
@@ -200,19 +222,28 @@ const PumpTable: React.FC = (props: any) => {
     // }
     function handleSubmit() {
         const statusVal = (statusValue === 'true')
-        const payload = {
-            "pumpId": (pumpId + 1),
-            "name": inputName,
-            "type": pumpTypeSelect,
-            "status": statusVal,
-            "userId": loginId,
-            "user": null
+        if (!inputName && !pumpTypeSelect) {
+            alert("Add Pump Details")
+            handleClose();
+        } else {
+            const payload = {
+                "pumpId": (pumpId + 1),
+                "name": inputName,
+                "type": pumpTypeSelect,
+                "status": statusVal,
+                "userId": loginId,
+                "user": null
+            }
+            axios.post("http://localhost:5148/api/Pump", payload)
+                .then((response) => {
+                    console.log(response.data);
+                })
+            toast.success("Pump Added!");
+            handleClose();
+            window.location.reload();
+            setSeed(Math.random());
+            refreshGrid();
         }
-        axios.post("http://localhost:5148/api/Pump", payload)
-            .then((response) => {
-                console.log(response.data);
-            })
-        window.location.reload();
     }
 
     const handlePumpTypeChange = (event: any) => {
@@ -221,6 +252,7 @@ const PumpTable: React.FC = (props: any) => {
     }
     return (
         <div className='PumpTable'>
+            <ToastContainer />
             <div className='PumpTable--search'>
                 <button className='PumpTable--addPump' onClick={handleAdd}>Add Pump</button>
                 <div>
@@ -228,6 +260,7 @@ const PumpTable: React.FC = (props: any) => {
                         <DialogTitle>Add Pump</DialogTitle>
                         <DialogContent>
                             <TextField
+                                required
                                 color='success'
                                 margin="dense"
                                 id="name"
@@ -240,6 +273,7 @@ const PumpTable: React.FC = (props: any) => {
                             <FormControl fullWidth>
                                 <InputLabel color='success' id="demo-simple-select-label">Pump Type</InputLabel>
                                 <Select
+                                    required
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={pumpTypeSelect}
@@ -261,8 +295,8 @@ const PumpTable: React.FC = (props: any) => {
                                     value={statusValue}
                                     onChange={handleStatusChange}
                                 >
-                                    <FormControlLabel value="true" color='success' control={<Radio color='success' />} label="On" />
-                                    <FormControlLabel value="false" color='success' control={<Radio color='success' />} label="Off" />
+                                    <FormControlLabel value="true" color='success' control={<Radio color='success' />} label="Running" />
+                                    <FormControlLabel value="false" color='success' control={<Radio color='success' />} label="Stopped" />
                                 </RadioGroup>
                             </FormControl>
                         </DialogContent>
@@ -288,6 +322,7 @@ const PumpTable: React.FC = (props: any) => {
             <div className="ag-theme-alpine">
 
                 <AgGridReact
+                    key={seed}
                     ref={gridRef}
                     rowData={filterSearch}
 
@@ -297,8 +332,8 @@ const PumpTable: React.FC = (props: any) => {
                     animateRows={true}
                     rowSelection='single'
                     rowClass={'pumpRowStyle'}
-                    rowHeight={54}
-
+                    rowHeight={50.5}
+                    onGridReady={onGridReady}
 
                     // onCellClicked={(cellClickedListener)}
                     pagination={true}

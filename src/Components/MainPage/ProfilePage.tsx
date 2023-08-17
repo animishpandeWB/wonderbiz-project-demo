@@ -13,6 +13,7 @@ const ProfilePage: React.FC = () => {
     const [userData, setUserData]: any[] = useState([]);
     const [pumpToUser, setPumpToUser]: any[] = useState([]);
     const { id }: any = useParams();
+    let homePageToggle = true;
 
     useEffect(() => {
         axios.get(`http://localhost:5148/api/User/${id}`)
@@ -21,6 +22,10 @@ const ProfilePage: React.FC = () => {
             })
     }, [])
     const userId: any = userData.userId;
+    let prop = {
+        id: id,
+        homePageToggle
+    }
     // console.log(userId);
     // console.log(userId);
     // useEffect(() => {
@@ -39,7 +44,7 @@ const ProfilePage: React.FC = () => {
             <NavBar loginPageBool={loginPageBool} mainId={userId} />
 
             <div className='ProfilePage'>
-                <Sidebar {...id} />
+                <Sidebar {...prop} />
                 <div className='Profile'>
                     <p className='Profile--header'>User Profile</p>
                     <hr className='Profile--hr' />

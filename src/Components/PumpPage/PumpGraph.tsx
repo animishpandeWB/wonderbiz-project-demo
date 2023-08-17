@@ -114,13 +114,13 @@ const PumpGraph: React.FC = (props: any) => {
     return (
         <div className='PumpGraph'>
             <div className='PumpGraph--graph'>
+                <p className='PumpGraph--mainHeading'>Pump Graph</p>
                 <Plot
                     data={data}
                     layout={
                         {
-                            height: 300,
-                            width: 1300,
-                            title: "Pump Graph",
+                            height: 370,
+                            width: 1276,
                             yaxis: {
                                 title: "Forecast"
                             },

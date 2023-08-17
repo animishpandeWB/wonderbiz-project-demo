@@ -30,15 +30,15 @@ const ViewButton: React.FC = (props: any) => {
 
     function handleViewClick() {
         // navigate(`/pump/${pump.data.pumpId}`, { state: propsData[0] });
-        console.log("View clicked: " + props.data.pumpId)
+        // console.log("View clicked: " + props.data.pumpId)
         // console.log(userData)
         // console.log("PropsData: " + props.data)
-        console.log("UserId: " + id);
-        console.log((propsData));
+        // console.log("UserId: " + id);
+        // console.log((propsData));
         navigate(`/pump/${props.data.pumpId}`, { state: { id } })
     }
     return (
-        <span><img src={viewBtn} className='viewBtn' onClick={handleViewClick} /></span>
+        <span title='Show Info'><img src={viewBtn} className='viewBtn' onClick={handleViewClick} /></span>
     )
 }
 

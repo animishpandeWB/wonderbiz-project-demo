@@ -9,11 +9,16 @@ import Sidebar from './Sidebar';
 const HomePage = (match: any) => {
     const loginPageBool = false;
     const { id }: any = useParams();
+    const homePageToggle: any = true;
+    let prop = {
+        id: id,
+        homePageToggle: homePageToggle
+    }
     return (
         <div>
             <Navbar loginPageBool={loginPageBool} mainId={id} />
             <div className='HomePage'>
-                <Sidebar {...id} />
+                <Sidebar {...prop} />
                 <PumpTable {...id} />
             </div>
         </div>

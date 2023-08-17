@@ -40,6 +40,7 @@ const Login: React.FC = () => {
     const handleLogin = () => {
         setEmailError('');
         setPasswordError('');
+        // let userPassBool = false;
 
         const submitObject = {
             "email": email,
@@ -47,30 +48,45 @@ const Login: React.FC = () => {
         }
 
         apiData.map((d: any) => {
-            userId = d.userId;
-            // && password == d.password
-            const payload = {
-                "userId": userId,
-                "password": password
-            }
-            if (email === d.email) {
+            if (!email) {
+                SetLoggedIn("Login Failed");
+                setEmailError('Enter valid email');
+                setPasswordError('Enter valid password');
+            } else {
+                userId = d.userId;
+                const { id } = apiData.find((item: any) => item.email == email);
+                console.log(id);
+                // && password == d.password
+                const payload = {
+                    "userId": userId,
+                    "password": password
+                }
                 axios.post('http://localhost:5148/api/UserAuth', {
-                    userId: userId,
+                    userId: id,
                     password: password
                 })
                     .then((response) => {
                         // console.log("User Login: " + response.data);
                         setCheckUserPass(response.data);
+                        // userPassBool = response.data
+                        if (!!response.data) {
+                            // console.log(!!response.data);
+                            navigate(`/home/${id}`);
+                            // return;
+                        } else {
+                            SetLoggedIn("Login Failed");
+                        }
                     })
 
             }
-            if (checkUserPass) {
-                // console.log(userId);
-                navigate(`/home/${userId}`);
-                // return;
-            } else {
-                SetLoggedIn("Login Failed");
-            }
+
+            // if (checkUserPass) {
+            //     // console.log(userId);
+            //     navigate(`/home/${id}`);
+            //     // return;
+            // } else {
+            //     SetLoggedIn("Login Failed");
+            // }
         });
     }
 
@@ -78,7 +94,7 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <Navbar loginPageBool={loginPageBool} mainId={userId} />
+            {/* <Navbar loginPageBool={loginPageBool} mainId={userId} /> */}
             <div className='Login'>
                 <span className='Login--header'>
                     <img src={companyLogo} alt="mainLogo" className='Login--mainLogo' />
@@ -93,7 +109,7 @@ const Login: React.FC = () => {
                             id='email'
                             type='email'
                             name='email'
-                            placeholder='Email'
+                            placeholder='Enter Email'
                             autoComplete='off'
                             className='Login--username'
                             value={email}
@@ -107,7 +123,7 @@ const Login: React.FC = () => {
                             id='password'
                             type='password'
                             name='password'
-                            placeholder='Password'
+                            placeholder='Enter Password'
                             className='Login--password'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -127,7 +143,7 @@ const Login: React.FC = () => {
                             >Register</button> */}
                     </div>
                     <a href="/user-register" className='forgot-password'>Sign Up</a>
-                    <a href="/" className='forgot-password'>Forgot Password?</a>
+                    <a href="/login" className='forgot-password'>Forgot Password?</a>
                 </span>
 
             </div>

@@ -1,8 +1,8 @@
 .pumpStyle {
     background-color: #01A54F;
     color: white;
-    /* padding: 0; */
-    /* margin-left: 10px; */
+    padding: 0;
+    margin-left: 17px;
     text-align: center;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -11,6 +11,25 @@
     /* border-radius: 15px; */
     /* width: 150px; */
 }
+
+.ag-header-active {
+    background-color: #01A54F;
+    color: white;
+}
+
+.ag-header-row {
+    background-color: #01A54F;
+}
+
+/* .ag-header-cell {
+    background-color: #01A54F;
+    color: white;
+}
+
+.ag-focus-managed {
+    background-color: #01A54F;
+    color: white;
+} */
 
 .pumpStyle :hover {
     background-color: #01A54F;
@@ -35,22 +54,24 @@ AgGridReact {
 
 .SearchBar {
     display: flex;
-    padding: 2px;
+    /* padding: 2px; */
     /* border: 1px solid currentColor; */
     /* border-radius: 5px; */
 }
 
 .PumpTable--searchbar {
     /* border: 0.5px solid black; */
-    background: #F6FBF4;
-    margin: 0;
+    background: #EEEEEE;
+    /* border: 0.2px solid black; */
+    margin-top: 2px;
+    margin-bottom: 2px;
     padding: 7px 8px;
     font-size: 14px;
     color: inherit;
-    border: 1px solid transparent;
+    border: 1px solid #EEEEEE;
     border-radius: 2px;
     margin-left: 15px;
-    /* margin-right: 15px; */
+    /* margin-right: -10px; */
     /* margin-top: 7px;
     margin-bottom: 7px;
     padding: 5px 5px;
@@ -63,26 +84,25 @@ AgGridReact {
     background: transparent;
     border-radius: 2px;
     outline: none;
-    border: none;
+    border: 1px solid #EEEEEE;
 }
 
 .searchBtn {
-    text-indent: -99999px;
+    /* text-indent: -999px; */
     overflow: hidden;
-    width: 40px;
-    padding: 0;
-    margin: 0;
-    border: 1px solid transparent;
-    border-radius: inherit;
+    /* padding: -50px; */
+    /* margin: 0; */
+    border: none;
+    /* border-radius: inherit; */
     width: 25px;
     cursor: pointer;
     opacity: 0.7;
-    margin-left: -50px;
+    margin-left: -55px;
 }
 
-.searchBtn :hover {
+/* .searchBtn :hover {
     opacity: 1;
-}
+} */
 
 .homeButton {
     border: none;

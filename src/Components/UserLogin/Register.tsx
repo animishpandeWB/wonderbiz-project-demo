@@ -80,7 +80,7 @@ const Register: React.FC = () => {
     const id: any = 1;
     return (
         <div className='Register'>
-            <Navbar loginPageBool={loginPageBool} mainId={id} />
+            {/* <Navbar loginPageBool={loginPageBool} mainId={id} /> */}
             <div className='Register--Page'>
                 <span className='Login--header'>
                     <img src={companyLogo} alt="mainLogo" className='Login--mainLogo' />
@@ -97,7 +97,7 @@ const Register: React.FC = () => {
                                 type='text'
                                 id='username'
                                 name='username'
-                                placeholder='Username'
+                                placeholder='Enter Username'
                                 autoComplete='off'
                                 className='Form--username'
                                 value={username}
@@ -113,7 +113,7 @@ const Register: React.FC = () => {
                                 type='email'
                                 id='email'
                                 name='email'
-                                placeholder='Email'
+                                placeholder='Enter Email'
                                 autoComplete='off'
                                 className='Form--email'
                                 value={email}
@@ -129,7 +129,7 @@ const Register: React.FC = () => {
                                 type='password'
                                 id='password'
                                 name='password'
-                                placeholder='Password'
+                                placeholder='Enter Password'
                                 className='Form--password'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -160,7 +160,7 @@ const Register: React.FC = () => {
                             onClick={() => navigate("/login")}    
                         >Login</button> */}
                     </div>
-                    <a href="/login" className='forgot-password'>Back to Login</a>
+                    <a href="/login" className='back-to-login'>Back to Login</a>
                 </span>
             </div>
         </div>
