@@ -366,6 +366,7 @@ NavDropdown.Item {
 
 .viewBtn {
   width: 20px;
+  /* padding-left: 1px; */
   border: none;
   cursor: pointer;
 }

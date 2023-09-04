@@ -13,7 +13,7 @@ const Sidebar = (props: any) => {
     const id = prop;
     const pageToggle = prop.homePageToggle;
     // console.log(props)
-    console.log(pageToggle)
+    // console.log(pageToggle)
     // const id = props.map((p: any) => {
     //     return p;
     // })

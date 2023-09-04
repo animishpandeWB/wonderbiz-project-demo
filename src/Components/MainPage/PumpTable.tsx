@@ -61,6 +61,7 @@ const PumpTable: React.FC = (props: any) => {
     const [pumpTypeSelect, setPumpTypeSelect] = React.useState("");
     const [seed, setSeed]: any = useState(1);
     const [gridApi, setGridApi]: any = useState(null);
+    const [refreshCounter, setRefreshCounter]: any = useState(1);
 
     const [columnData, setColumnData]: any[] = useState([
         // {field: "pumpId", headerName: "Pump ID", headerClass: 'pumpStyle'},
@@ -73,6 +74,8 @@ const PumpTable: React.FC = (props: any) => {
             cellStyle: () => ({
                 fontSize: '16px'
             })
+            // sortingOrder: ["desc"]
+            // sort: 'desc'
         },
         {
             field: "type",
@@ -82,6 +85,7 @@ const PumpTable: React.FC = (props: any) => {
             cellStyle: () => ({
                 fontSize: '16px'
             })
+            // sort: 'desc'
         },
         {
             field: "status",
@@ -92,6 +96,7 @@ const PumpTable: React.FC = (props: any) => {
             cellStyle: () => ({
                 textAlign: "center"
             })
+            // sort: 'desc'
         },
         {
             field: "view",
@@ -102,17 +107,22 @@ const PumpTable: React.FC = (props: any) => {
             cellStyle: () => ({
                 textAlign: "center"
             })
+            // sort: 'desc'
         },
         {
             field: "delete",
             headerName: "Delete Pump",
             cellRenderer: DeleteButton,
+            cellRendererParams: {
+                setRefreshCounter: setRefreshCounter
+            },
             suppressNavigable: true,
             headerClass: 'pumpStyle',
             width: 150,
             cellStyle: () => ({
                 textAlign: "center"
             })
+            // sort: 'desc'
         }
     ]);
     const navigate = useNavigate();
@@ -166,6 +176,12 @@ const PumpTable: React.FC = (props: any) => {
                 setPumpNum(res.data);
             })
     }, []);
+    useEffect(() => {
+        axios.get(`http://localhost:5148/api/Pump/Users/${propsData[0]}`)
+            .then((res) => {
+                setPumpsData(res.data);
+            })
+    }, [refreshCounter]);
 
 
     // console.log(`Pumpsdata: ${JSON.stringify(pumpsData.map((p:any) => p.pumpId))}`);
@@ -240,9 +256,10 @@ const PumpTable: React.FC = (props: any) => {
                 })
             toast.success("Pump Added!");
             handleClose();
-            window.location.reload();
-            setSeed(Math.random());
-            refreshGrid();
+            setRefreshCounter(refreshCounter + 1);
+            // window.location.reload();
+            // setSeed(Math.random());
+            // refreshGrid();
         }
     }
 
@@ -252,7 +269,9 @@ const PumpTable: React.FC = (props: any) => {
     }
     return (
         <div className='PumpTable'>
-            <ToastContainer />
+            <ToastContainer 
+                autoClose={3000}
+            />
             <div className='PumpTable--search'>
                 <button className='PumpTable--addPump' onClick={handleAdd}>Add Pump</button>
                 <div>
